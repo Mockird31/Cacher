@@ -11,7 +11,7 @@ class CacheStore:
     def run_expiry_thread(self):
         def loop():
             while True:
-                time.sleep(3600) 
+                time.sleep(3600)
                 with self.lock:
                     now = time.time()
                     expired_keys = [k for k, t in self.expiry.items() if now > t]
@@ -20,6 +20,7 @@ class CacheStore:
                         self.expiry.pop(k, None)
                     if expired_keys:
                         print(f"deleted expired keys: {expired_keys}")
+
         threading.Thread(target=loop, daemon=True).start()
 
     def set_data(self, key: str, value: str, expiry: str) -> bool:

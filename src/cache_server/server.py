@@ -1,5 +1,11 @@
 from cache_server.cache import CacheStore
-from cache_server.command import Command, SetCommand, GetCommand, ExpireCommand, TTLCommand
+from cache_server.command import (
+    Command,
+    SetCommand,
+    GetCommand,
+    ExpireCommand,
+    TTLCommand,
+)
 import socket
 
 
@@ -24,16 +30,16 @@ class CacheServer:
             return "unknown command"
         res = comm.execute(self.cache_store, parts_data[1:])
         return str(res) + "\n"
-    
+
     def handle_client(self, client_socket: socket.socket, client_address):
         print(f"Connection from {client_address}")
-        
+
         try:
             while True:
                 data = client_socket.recv(1024).decode().strip()
                 if not data:
                     break
-                    
+
                 if data.split()[0] == "QUIT":
                     client_socket.send("QUIT FROM SERVER\n".encode())
                     return
@@ -43,7 +49,7 @@ class CacheServer:
         finally:
             client_socket.close()
             print(f"Connection closed with {client_address}")
-    
+
     def start(self):
         self.cache_store.run_expiry_thread()
         self.server_socket.bind((self.host, self.port))
