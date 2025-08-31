@@ -5,8 +5,10 @@ from cache_server.command import (
     GetCommand,
     ExpireCommand,
     TTLCommand,
+    PINGCommand,
 )
 import socket
+import threading
 
 
 class CacheServer:
@@ -19,6 +21,7 @@ class CacheServer:
             "GET": GetCommand(),
             "EXPIRE": ExpireCommand(),
             "TTL": TTLCommand(),
+            "PING": PINGCommand(),
         }
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -59,7 +62,10 @@ class CacheServer:
         try:
             while True:
                 client_socket, client_address = self.server_socket.accept()
-                self.handle_client(client_socket, client_address)
+                client_thread = threading.Thread(
+                    target=self.handle_client, args=(client_socket, client_address)
+                )
+                client_thread.start()
         except KeyboardInterrupt:
             print("shutting down server..")
         finally:

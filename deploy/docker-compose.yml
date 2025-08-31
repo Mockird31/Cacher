@@ -1,0 +1,10 @@
+services:
+  server:
+    build: 
+      context: ..
+      dockerfile: deploy/images/server/Dockerfile
+    container_name: cache_server
+    restart: always
+    ports:
+      - '6379:6379'
+    tty: true

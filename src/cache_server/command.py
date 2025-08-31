@@ -36,3 +36,8 @@ class TTLCommand(Command):
         key = args[0]
         remaining_time = store.ttl(key)
         return remaining_time if remaining_time != 0 else "nil"
+
+
+class PINGCommand(Command):
+    def execute(self, store: CacheStore, args: list[str]) -> Response:
+        return "PONG"
