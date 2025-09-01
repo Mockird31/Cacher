@@ -1,0 +1,37 @@
+name: pushrequest
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
+
+      - name: Install dependencies
+        run: pip install pytest
+
+      - name: Run tests
+        if: always()
+        run: |
+          pytest tests
+
+          res=$?
+
+          if [[ $res != 0 ]]; then
+            echo "🔴 TESTS FAILED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "🟢 TESTS PASSED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          
+      
