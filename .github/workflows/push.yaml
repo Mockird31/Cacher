@@ -46,7 +46,7 @@ jobs:
       - name: Build server image
         uses: docker/build-push-action@v5
         with:
-          context: ./src
+          context: .
           file: ./deploy/images/server/Dockerfile
           push: false
           tags: cachestore-server:latest
