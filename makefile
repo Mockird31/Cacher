@@ -4,6 +4,9 @@ ruff_format:
 run:
 	cd src && python3 main.py
 
+run_tests:
+	pytest tests
+
 docker-up:
 	cd deploy/ && make deploy
 

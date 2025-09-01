@@ -42,7 +42,7 @@ class CacheStore:
         return False
 
     def ttl(self, key: str) -> int:
-        if key not in self.store or key:
+        if key not in self.store or key not in self.expiry:
             return 0
         remaining_time = self.expiry.get(key, -1)
         return int(

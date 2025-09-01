@@ -70,3 +70,12 @@ class CacheServer:
             print("shutting down server..")
         finally:
             self.server_socket.close()
+
+    def stop(self):
+        try:
+            temp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            temp_client.connect((self.host, self.port))
+            temp_client.send(b"QUIT\n")
+            temp_client.close()
+        except Exception as e:
+            print(f"Ошибка при остановке сервера: {e}")
