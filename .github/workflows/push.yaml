@@ -27,11 +27,11 @@ jobs:
 
           res=$?
 
-          if [[ $res != 0 ]]; then
+          if [ "${{ job.status }}" = "success" ]; then
             echo "🔴 TESTS FAILED" >> $GITHUB_STEP_SUMMARY
           else
             echo "🟢 TESTS PASSED" >> $GITHUB_STEP_SUMMARY
           fi
 
-          
+
       
